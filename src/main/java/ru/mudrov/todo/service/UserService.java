@@ -16,14 +16,10 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void registerUser(String username, String password) {
-        if (userRepository.findByUsername(username).isPresent()) {
-            throw new RuntimeException("Username already exists");
-        }
-
+    public void registerUser(String username, String rawPassword) {
         User user = new User();
         user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
+        user.setPassword(passwordEncoder.encode(rawPassword));
         userRepository.save(user);
     }
 }

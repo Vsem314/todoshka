@@ -1,11 +1,13 @@
 package ru.mudrov.todo.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@DynamicInsert
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +23,6 @@ public class User {
     private Set<Tasks> tasks;
 
     public User() {
-        this.username = username;
-        this.password = password;
     }
 
     public void setUsername(String username) {
