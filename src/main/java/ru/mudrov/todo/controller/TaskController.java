@@ -4,7 +4,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.mudrov.todo.model.Tasks;
+import ru.mudrov.todo.dto.TaskDto;
 import ru.mudrov.todo.model.User;
 import ru.mudrov.todo.service.TaskService;
 
@@ -22,7 +22,9 @@ public class TaskController {
     @GetMapping
     public String tasks(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("tasks", taskService.getUserTasks(user));
-        model.addAttribute("newTask", new Tasks());
+        model.addAttribute("newTask", new TaskDto()); // Используем DTO для формы
+        model.addAttribute("overdueCount",
+                taskService.getOverdueTasks(user).size());
         return "tasks";
     }
 
@@ -37,6 +39,7 @@ public class TaskController {
 
     @PostMapping("/{id}/toggle")
     public String toggleTask(@PathVariable Long id) {
+        System.out.println("Toggling task with id: " + id); // Логирование
         taskService.toggleTaskCompletion(id);
         return "redirect:/tasks";
     }

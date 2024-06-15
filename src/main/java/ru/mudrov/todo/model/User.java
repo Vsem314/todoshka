@@ -23,13 +23,22 @@ public class User {
     private Set<Tasks> tasks;
 
     public User() {
+
     }
 
     public void setUsername(String username) {
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty");
+        }
+        this.username = username;
+
     }
 
-    public void setPassword(String encode) {
-
+    public void setPassword(String password) {
+        if (password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
+        this.password = password;
     }
 
     // Геттеры и сеттеры

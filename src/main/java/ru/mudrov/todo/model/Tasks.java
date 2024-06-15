@@ -13,14 +13,15 @@ public class Tasks {
     @Column(nullable = false)
     private String title;
 
+    @Column(length = 1000)
     private String description;
 
-    private LocalDate dueDate;
 
+    private LocalDate dueDate;
     private boolean completed;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
 // Геттеры и сеттеры
@@ -71,5 +72,10 @@ public class Tasks {
 
     public void setUser(User user) {
         this.user = user;
+    }
+    public boolean isOverdue() {
+        return dueDate != null
+                && !completed
+                && dueDate.isBefore(LocalDate.now());
     }
 }
